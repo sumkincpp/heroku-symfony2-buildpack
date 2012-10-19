@@ -48,7 +48,18 @@ ln -s /app/php/bin/php bin/php
 
 export set PATH=$PATH:$BUILD_DIR/php/bin
 
+# update the database parameters
+echo "-----> Update parameters.yml"
+PARAMETER_FILE='www/app/config/parameters.yml'
+DB_HOST=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\4#'`;
+DB_NAME=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\5#'`;
+DB_USER=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\2#'`;
+DB_PASSWORD=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\3#'`;
 
+sed -i "s/^\(\s*database_host:\s*\).*$/\1$DB_HOST/" $PARAMETER_FILE
+sed -i "s/^\(\s*database_name:\s*\).*$/\1$DB_NAME/" $PARAMETER_FILE
+sed -i "s/^\(\s*database_user:\s*\).*$/\1$DB_USER/" $PARAMETER_FILE
+sed -i "s/^\(\s*database_password:\s*\).*$/\1$DB_PASSWORD/" $PARAMETER_FILE
 
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
