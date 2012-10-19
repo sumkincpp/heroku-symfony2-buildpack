@@ -51,6 +51,10 @@ export set PATH=$PATH:$BUILD_DIR/php/bin
 # update the database parameters
 echo "-----> Update parameters.yml"
 PARAMETER_FILE='www/app/config/parameters.yml'
+if [ ! -f $PARAMETER_FILE -a -f $PARAMETER_FILE.dist ]
+then
+    cp $PARAMETER_FILE.dist $PARAMETER_FILE;
+fi;
 DB_HOST=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\4#'`;
 DB_NAME=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\5#'`;
 DB_USER=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\2#'`;
