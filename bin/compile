@@ -73,7 +73,9 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   COMPOSER_URL="http://getcomposer.org/composer.phar"
   curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
   cd www
-  echo $LP_DIR
+  ls $LP_DIR/conf/
+  ls /app/php
+
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php --ini
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -i | grep time
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php composer.phar install --prefer-source -v
