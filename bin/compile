@@ -65,9 +65,6 @@ sed -i "s/^\(\s*database_name:\s*\).*$/\1$DB_NAME/" $PARAMETER_FILE
 sed -i "s/^\(\s*database_user:\s*\).*$/\1$DB_USER/" $PARAMETER_FILE
 sed -i "s/^\(\s*database_password:\s*\).*$/\1$DB_PASSWORD/" $PARAMETER_FILE
 
-# create bootstrap cache file
-touch www/app/bootstrap.php.cache
-
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   GIT_DIR_ORIG=$GIT_DIR
