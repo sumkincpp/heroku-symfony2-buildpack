@@ -15,6 +15,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
+echo "BIN_DIR $BIN_DIR"
+echo "BUILD_DIR $BUILD_DIR"
+echo "CACHE_DIR $CACHE_DIR"
+echo "LP_DIR $LP_DIR"
+
 # include .files when moving things around
 shopt -s dotglob
 
@@ -39,9 +44,10 @@ echo "-----> Bundling PHP version $PHP_VERSION"
 curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 
 # update config files
-#cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
+cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 cp $LP_DIR/conf/php.ini php
-cp $LP_DIR/conf/php.ini /app/php
+mkdir /app/php
+cp $LP_DIR/conf/php.ini /app/php/php.ini
 
 # make php available on bin
 mkdir -p bin
@@ -74,7 +80,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   COMPOSER_URL="http://getcomposer.org/composer.phar"
   curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
   cd www
-  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source -v
+  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php composer.phar install --prefer-source -v
   cd $BUILD_DIR
   rm www/composer.phar
   export GIT_DIR=$GIT_DIR_ORGI
