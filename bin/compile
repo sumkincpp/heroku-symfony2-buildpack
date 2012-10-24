@@ -49,7 +49,7 @@ ln -s /app/php/bin/php bin/php
 export set PATH=$PATH:$BUILD_DIR/php/bin
 
 # Make sure we have a parameters.yml file
-echo "-----> Update parameters.yml"
+echo "-----> Verify parameters.yml"
 PARAMETER_FILE='www/app/config/parameters.yml'
 if [ ! -f $PARAMETER_FILE -a -f $PARAMETER_FILE.dist ]
 then
