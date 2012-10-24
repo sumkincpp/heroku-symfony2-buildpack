@@ -46,8 +46,6 @@ curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 # update config files
 cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 cp $LP_DIR/conf/php.ini php
-mkdir /app/php
-cp $LP_DIR/conf/php.ini /app/php/php.ini
 
 # make php available on bin
 mkdir -p bin
@@ -55,25 +53,13 @@ ln -s /app/php/bin/php bin/php
 
 export set PATH=$PATH:$BUILD_DIR/php/bin
 
-# update the database parameters
-echo "-----> Update parameters.yml"
-PARAMETER_FILE='www/app/config/parameters.yml'
-if [ ! -f $PARAMETER_FILE -a -f $PARAMETER_FILE.dist ]
-then
-    cp $PARAMETER_FILE.dist $PARAMETER_FILE;
-fi;
-DB_HOST=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\4#'`;
-DB_NAME=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\5#'`;
-DB_USER=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\2#'`;
-DB_PASSWORD=`echo $CLEARDB_DATABASE_URL | sed 's#\(mysql\)://\(\w*\):\(\w*\)@\([^/]*\)/\([^?]*\).*$#\3#'`;
-
-sed -i "s/^\(\s*database_host:\s*\).*$/\1$DB_HOST/" $PARAMETER_FILE
-sed -i "s/^\(\s*database_name:\s*\).*$/\1$DB_NAME/" $PARAMETER_FILE
-sed -i "s/^\(\s*database_user:\s*\).*$/\1$DB_USER/" $PARAMETER_FILE
-sed -i "s/^\(\s*database_password:\s*\).*$/\1$DB_PASSWORD/" $PARAMETER_FILE
-
 # check if we have Composer dependencies and vendors are not bundled
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
+
+  # This is needed for running the post-install scripts
+  mkdir /app/php
+  cp $LP_DIR/conf/php.ini /app/php/php.ini
+
   GIT_DIR_ORIG=$GIT_DIR
   unset GIT_DIR
   echo "-----> Installing Composer dependencies"
