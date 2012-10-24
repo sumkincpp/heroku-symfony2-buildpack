@@ -46,11 +46,6 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /app/php/bin/php bin/php
 
-pwd
-ls -la /
-ls -la /app/php
-ls -la bin
-
 export set PATH=$PATH:$BUILD_DIR/php/bin
 
 # update the database parameters
@@ -81,7 +76,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
   ls $LP_DIR/conf/
   ls /app/php
 
-  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php --ini
+  LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c $BUILD_DIR/app/php --ini
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -i | grep time
   LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php composer.phar install --prefer-source -v
   cd $BUILD_DIR
