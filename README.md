@@ -42,7 +42,7 @@ Pre-compiling binaries
     mv mirror php.tar.gz
     tar xzvf php.tar.gz
     cd php-5.4.11/
-    ./configure --prefix=`pwd`/../app/php --with-apxs2=`pwd`/../app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --enable-intl --with-icu-dir=`pwd`/../app/icu
+    ./configure --prefix=`pwd`/../app/php --with-apxs2=`pwd`/../app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --enable-intl --with-icu-dir=`pwd`/../app/icu --enable-apc
     make
     make install
     cd ..
