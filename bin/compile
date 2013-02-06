@@ -30,6 +30,13 @@ if [ -f www/Procfile ]; then
   mv www/Procfile .
 fi
 
+ICU_VERSION="50.1.2"
+ICU_PATH="icu"
+
+ICU_URL="http://dl.dropbox.com/u/21495200/heroku/icu-$ICU_VERSION.tar.gz"
+echo "-----> Bundling ICU Library $ICU_VERSION"
+curl --silent --max-time 60 --location "$ICU_URL" | tar xz
+
 #APACHE_URL="https://s3.amazonaws.com/php-lp/apache-$APACHE_VERSION.tar.gz"
 APACHE_URL="http://dl.dropbox.com/u/21495200/heroku/apache-$APACHE_VERSION.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"

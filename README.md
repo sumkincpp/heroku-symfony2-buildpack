@@ -27,15 +27,33 @@ Pre-compiling binaries
     make install
     cd ..
     
+    # icu for 'intl'
+    mkdir app
+    wget http://download.icu-project.org/files/icu4c/50.1.2/icu4c-50_1_2-src.tgz
+    tar xvzf icu4c-50_1_2-src.tar.gz
+    cd icu4c-50_1_2-src/source
+    ./configure --prefix=`pwd`/../app/icu
+    make
+    make install
+    cd ../..
+
     # php
     wget http://www.php.net/get/php-5.4.11.tar.gz/from/us1.php.net/mirror
     mv mirror php.tar.gz
     tar xzvf php.tar.gz
     cd php-5.4.11/
-    ./configure --prefix=`pwd`/../app/php --with-apxs2=`pwd`/../app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --enable-intl
+    ./configure --prefix=`pwd`/../app/php --with-apxs2=`pwd`/../app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --enable-intl --with-icu-dir=`pwd`/../app/icu
     make
     make install
     cd ..
+
+    # Heroku doesn't have 1.0.0
+    # In app/php/ext dir
+    #
+    cd app/php/ext
+    ln -s /usr/lib/libssl.so.0.9.8 libssl.so.1.0.0
+    ln -s /usr/lib/libcrypto.so.0.9.8 libcrypto.so.1.0.0
+    cd ../../..
     
     # php extensions    
     mkdir app/php/ext
@@ -54,9 +72,9 @@ Pre-compiling binaries
     # package
     cd app
     echo '2.2.22' > apache/VERSION
-    tar -zcvf apache.tar.gz apache
+    tar -zcvf apache-2.2.22.tar.gz apache
     echo '5.4.11' > php/VERSION
-    tar -zcvf php.tar.gz php
+    tar -zcvf php-5.4.11.tar.gz php
 
 
 Hacking
