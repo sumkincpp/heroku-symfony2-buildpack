@@ -14,45 +14,48 @@ The config files are bundled with the LP itself:
 
 Pre-compiling binaries
 ----------------------
+    
+    # make some temporary dir, go to it
 
     # apache
-    mkdir /app
-    wget http://apache.cyberuse.com//httpd/httpd-2.2.19.tar.gz
-    tar xvzf httpd-2.2.19.tar.gz
-    cd httpd-2.2.19
-    ./configure --prefix=/app/apache --enable-rewrite
+    mkdir app
+    wget http://www.apache.org/dist/httpd/httpd-2.2.22.tar.gz
+    tar xvzf httpd-2.2.22.tar.gz
+    cd httpd-2.2.22
+    ./configure --prefix=`pwd`/../app/apache --enable-rewrite
     make
     make install
     cd ..
     
     # php
-    wget http://us2.php.net/get/php-5.3.6.tar.gz/from/us.php.net/mirror 
+    wget http://www.php.net/get/php-5.4.11.tar.gz/from/us1.php.net/mirror
     mv mirror php.tar.gz
     tar xzvf php.tar.gz
-    cd php-5.3.6/
-    ./configure --prefix=/app/php --with-apxs2=/app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl
+    cd php-5.4.11/
+    ./configure --prefix=`pwd`/../app/php --with-apxs2=`pwd`/../app/apache/bin/apxs --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --enable-soap=shared --with-openssl --enable-intl
     make
     make install
     cd ..
     
-    # php extensions
-    mkdir /app/php/ext
-    cp /usr/lib/libmysqlclient.so.15 /app/php/ext/
+    # php extensions    
+    mkdir app/php/ext
+    #sudo apt-get install libmysqlclient-dev
+    #cp /usr/lib/libmysqlclient.so.15 app/php/ext/
     
     # pear
     apt-get install php5-dev php-pear
-    pear config-set php_dir /app/php
+    pear config-set php_dir app/php
     pecl install apc
-    mkdir /app/php/include/php/ext/apc
-    cp /usr/lib/php5/20060613/apc.so /app/php/ext/
-    cp /usr/include/php5/ext/apc/apc_serializer.h /app/php/include/php/ext/apc/
+    mkdir app/php/include/php/ext/apc
+    cp /usr/lib/php5/20100525/apc.so app/php/ext/
+    cp /usr/include/php5/ext/apc/apc_serializer.h app/php/include/php/ext/apc/
     
     
     # package
-    cd /app
-    echo '2.2.19' > apache/VERSION
+    cd app
+    echo '2.2.22' > apache/VERSION
     tar -zcvf apache.tar.gz apache
-    echo '5.3.6' > php/VERSION
+    echo '5.4.11' > php/VERSION
     tar -zcvf php.tar.gz php
 
 
