@@ -47,13 +47,14 @@ Pre-compiling binaries
     make install
     cd ..
 
+    # !! Not neccesary right now !!
     # Heroku doesn't have 1.0.0
     # In app/php/ext dir
     #
-    cd app/php/ext
-    ln -s /usr/lib/libssl.so.0.9.8 libssl.so.1.0.0
-    ln -s /usr/lib/libcrypto.so.0.9.8 libcrypto.so.1.0.0
-    cd ../../..
+    # cd app/php/ext
+    # ln -s /usr/lib/libssl.so.0.9.8 libssl.so.1.0.0
+    # ln -s /usr/lib/libcrypto.so.0.9.8 libcrypto.so.1.0.0
+    # cd ../../..
     
     # php extensions    
     mkdir app/php/ext
