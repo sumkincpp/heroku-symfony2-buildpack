@@ -1,3 +1,5 @@
+#### I strongly recommend to try [iphoting/heroku-buildpack-php-tyler](https://github.com/iphoting/heroku-buildpack-php-tyler/) first!
+
 Yet Another Cozy PHP buildpack for Heroku
 ========================
 
@@ -14,7 +16,7 @@ Yet it's not powerfull, but it's __working__. Also, compiled slugs sizes are abo
 
 Consider other buildpacks :
 
-* [iphoting/heroku-buildpack-php-tyler/](https://github.com/iphoting/heroku-buildpack-php-tyler/) - Nginx+PHP-FPM build pack, now much better than this pack, but doesn't work with Symfony2
+* [iphoting/heroku-buildpack-php-tyler/](https://github.com/iphoting/heroku-buildpack-php-tyler) - Nginx+PHP-FPM build pack, now much better than this pack, but doesn't work with Symfony2
 * [Swop/heroku-buildpack-symfony2](https://github.com/Swop/heroku-buildpack-symfony2) - In heavy development, written on Python
 * [travisj/heroku-buildpack-nginx-php](https://github.com/travisj/heroku-buildpack-nginx-php) - Heroku Buildpack: Nginx + PHP
 * [alkhoo/heroku-cedar-php-extension](https://github.com/alkhoo/heroku-cedar-php-extension) - Compiled a few library for Heroku's PHP extension - imagick.so, apc.so, gd.so
@@ -32,15 +34,14 @@ Usage
 -------------
 
 1. Bundle empty "index.php" in root of your app, heroku needs it! Symfony2 by default have not this one.
-2. Create heroku Application :
+2. Do 1 or 2
+  1. Create heroku Application :
 
-    $ heroku create myapp --buildpack https://github.com/sumkincpp/heroku-symfony2-buildpack.git
+        $ heroku create myapp --buildpack https://github.com/sumkincpp/heroku-symfony2-buildpack.git
 
-OR  
+  2. Change buildpack on existing one :
 
-2. Change buildpack on existing one :
-
-    $ heroku config:add BUILDPACK_URL=https://github.com/sumkincpp/heroku-symfony2-buildpack.git
+        $ heroku config:add BUILDPACK_URL=https://github.com/sumkincpp/heroku-symfony2-buildpack.git
 
 3. Push changes to Heroku.
 4. !?!? 
@@ -51,10 +52,12 @@ OR
 Pre-compiling binaries
 ----------------------
 
+ATTENTION! Consider using [heroku/vulcan](https://github.com/heroku/vulcan) to build this binaries for heroku.
+
 Precompilation is not neccesary until you decide to bundle some new modules into apache, etc.
 
 It is recommended to build packages in heroku remote bash(man 'heroku run bash') or on similar systems. 
-Currently heroku runs [Ubuntu 10.04](http://releases.ubuntu.com/lucid/), you can check it by running on remote bash 'cat /etc/lsb-release'.
+Currently heroku runs [Ubuntu 10.04 x64](http://releases.ubuntu.com/lucid/), you can check it by running on remote bash 'cat /etc/lsb-release'.
 Using non-equal systems to precompile binaries may cause hellish library linking problems, those could not be easy solved. 
 It also waste your time.
 
@@ -132,10 +135,10 @@ Push up changes to your fork, then create a test app with --buildpack <your-gith
 
 TODO
 -------
-[] using vulcan for build
-[] bundle apc
-[] bundle newrelic
-[] bundle AWS support 
+- [] using vulcan for build
+- [] bundle apc
+- [] bundle newrelic
+- [] bundle AWS support 
 
 Meta
 ----
